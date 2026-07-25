@@ -1,3 +1,5 @@
+import json
+
 def display_header():
     print("""
 Project: Agroweather
@@ -8,28 +10,40 @@ Weather data analysis for agricultural decision support.
 """
     )
 
-weather_data = {
-    "location" : "Barcelona",
-    "temperature" : 7.5, 
-    "humidity" : 81,
-    "wind_speed" : 18.0,
-    "rainfall" : 4.2
-}
+def load_weather_data(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = json.load(file)
+    return data
 
 def display_weather(data):
     print(f"Location: {data['location']}")
+    print(f"Temperature: {data['temperature']} ºC")
+    print(f"Humidity: {data['humidity']} %")
+    print(f"Wind Speed: {data['wind_speed']} km/h")
+    print(f"Rainfall: {data['rainfall']} mm")
 
 def generate_alerts(data):
-    print("--------------------")
-    print("Alerts")
+    alerts = []
+
     if data['temperature'] < 3 :
-        print("Warning: Frost risk")
+        alerts.append("Frost risk")
+
     if data["wind_speed"] > 15 :
-        print("Unfavorable conditions for spraying")
+        alerts.append("Unfavorable conditions for spraying")
+
     if data["rainfall"] > 10 :
-        print("Review or postpone irrigation")
+        alerts.append("Review or postpone irrigation")
+
     if data['humidity'] > 80 :
-        print("High humidity: possible fungal disease risk")
+        alerts.append("High humidity: possible fungal disease risk")
+
+    return alerts
+
+def display_summary(alerts):
+    print("------------------")
+    print("Summary")
+    for item in alerts:
+        print(f"- {item}")
 
 def display_footer():
     print("""
@@ -39,9 +53,15 @@ End of Report
     """)
 
 def main():
+    weather_data = load_weather_data("data/weather_data.json")
+
     display_header()
     display_weather(weather_data)
-    generate_alerts(weather_data)
+
+    alerts = generate_alerts(weather_data)
+
+    display_summary(alerts)
     display_footer()
+    
 
 main()
