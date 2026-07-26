@@ -1,7 +1,7 @@
 {
   "location": "Barcelona",
-  "temperature": 8.0 ,
-  "humidity": 71,
+  "temperature": 15 ,
+  "humidity": 88 ,
   "wind_speed": 14.0,
   "rainfall": 4.2
 }

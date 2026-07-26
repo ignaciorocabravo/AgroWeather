@@ -16,6 +16,62 @@ def load_weather_data(file_path):
 
     return data
 
+def validate_weather_data(data):
+    required_fields = [
+        "location",
+        "temperature",
+        "humidity",
+        "wind_speed",
+        "rainfall"
+    ]
+
+    for field in required_fields:
+        if field not in data:
+            print(f"Missing required field: {field}")
+            return False
+
+    if not isinstance(data["location"], str):
+        print("Invalid location")
+        return False
+
+    if not data["location"].strip():
+        print("Location cannot be empty")
+        return False
+
+    if not isinstance(data["temperature"], (int, float)):
+        print("Invalid temperature")
+        return False
+
+    if not -20 <= data["temperature"] <= 60:
+        print("Temperature out of range")
+        return False
+
+    if not isinstance(data["humidity"], (int, float)):
+        print("Invalid humidity")
+        return False
+
+    if not 0 <= data["humidity"] <= 100:
+        print("Humidity out of range")
+        return False
+
+    if not isinstance(data["wind_speed"], (int, float)):
+        print("Invalid wind speed")
+        return False
+
+    if not 0 <= data["wind_speed"] <= 100:
+        print("Wind speed out of range")
+        return False
+
+    if not isinstance(data["rainfall"], (int, float)):
+        print("Invalid rainfall")
+        return False
+
+    if data["rainfall"] < 0:
+        print("Rainfall out of range")
+        return False
+
+    return True
+
 def display_weather(data):
     print(f"Location: {data['location']}")
     print(f"Temperature: {data['temperature']} ºC")
@@ -60,6 +116,12 @@ End of Report
 
 def main():
     weather_data = load_weather_data("data/weather_data.json")
+    
+    is_valid = validate_weather_data(weather_data)
+
+    if not is_valid:
+        print("Weather data validation failed.")
+        return
 
     display_header()
     display_weather(weather_data)
