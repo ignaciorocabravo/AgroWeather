@@ -13,6 +13,7 @@ Weather data analysis for agricultural decision support.
 def load_weather_data(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
+
     return data
 
 def display_weather(data):
@@ -25,16 +26,16 @@ def display_weather(data):
 def generate_alerts(data):
     alerts = []
 
-    if data['temperature'] < 3 :
+    if data['temperature'] < 3:
         alerts.append("Frost risk")
 
-    if data["wind_speed"] > 15 :
+    if data["wind_speed"] > 15:
         alerts.append("Unfavorable conditions for spraying")
 
-    if data["rainfall"] > 10 :
+    if data["rainfall"] > 10:
         alerts.append("Review or postpone irrigation")
 
-    if data['humidity'] > 80 :
+    if data['humidity'] > 80:
         alerts.append("High humidity: possible fungal disease risk")
 
     return alerts
@@ -42,8 +43,13 @@ def generate_alerts(data):
 def display_summary(alerts):
     print("------------------")
     print("Summary")
-    for item in alerts:
-        print(f"- {item}")
+
+    if alerts:
+        for item in alerts:
+            print(f"- {item}")
+
+    else:
+        print("- No agricultural alerts")
 
 def display_footer():
     print("""
