@@ -11,10 +11,20 @@ Weather data analysis for agricultural decision support.
     )
 
 def load_weather_data(file_path):
-    with open(file_path, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-    return data
+        return data
+
+    except FileNotFoundError:
+        print(f"Error: file not found {file_path}")
+        return None
+
+    except json.JSONDecodeError:
+        print(f"Error: invalid JSON format in {file_path}")
+        return None
+
 
 def validate_weather_data(data):
     required_fields = [
@@ -116,10 +126,11 @@ End of Report
 
 def main():
     weather_data = load_weather_data("data/weather_data.json")
-    
-    is_valid = validate_weather_data(weather_data)
 
-    if not is_valid:
+    if weather_data is None:
+        return
+
+    if not validate_weather_data(weather_data):
         print("Weather data validation failed.")
         return
 
